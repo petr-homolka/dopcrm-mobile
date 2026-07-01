@@ -1,6 +1,16 @@
 # CURRENT_STATE — pestouni-crm-mobile
 
-**Verze:** 0.2.0 (GitHub repo + EAS Update CI/CD nastaveno)
+**Verze:** 0.3.0 (KONEČNĚ FUNKČNÍ v Expo Go — SDK 54)
+**Vyřešeno (2026-07-01):** Appka byla nespustitelná kvůli mismatch verzí Expo Go. Diagnostika: uživatelovo
+Expo Go hlásilo `client version 1017756, supported sdk 54` — podporuje JEN SDK 54, ne 56 ani 57.
+**Downgrade na SDK 54** (`npx expo install expo@^54.0.0 && npx expo install --fix`) + odstranění
+`"expo-status-bar"` z `app.json` → `plugins` (SDK 54 verze balíčku nemá platný config plugin, blokovalo
+build s `PluginError`). Po opravě: **appka se úspěšně načetla v Expo Go na iOS, LoginScreen zobrazen.**
+Poučení pro příště: při "incompatible Expo Go" chybě VŽDY nejdřív zjistit z hlášky telefonu přesné
+`supported sdk` číslo (v Expo Go app), ne jen zkoušet "poslední" SDK — release lag Expo Go vs. nové SDK
+verze může být týdny.
+
+**Verze (předchozí):** 0.2.0 (GitHub repo + EAS Update CI/CD nastaveno)
 **GitHub repo:** https://github.com/petr-homolka/dopcrm-mobile (branch `main`)
 **EAS projekt:** `doprovazeni.com/pestouni-crm-mobile` (ID `dbd23f5a-0196-4b96-bc59-f8ad9b814c78`), https://expo.dev/accounts/doprovazeni.com/projects/pestouni-crm-mobile
 
