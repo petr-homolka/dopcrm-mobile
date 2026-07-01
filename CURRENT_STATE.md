@@ -1,6 +1,16 @@
 # CURRENT_STATE — pestouni-crm-mobile
 
-**Verze:** 0.1.1 (Expo scaffold downgradován na SDK 56, web platform fix)
+**Verze:** 0.2.0 (GitHub repo + EAS Update CI/CD nastaveno)
+**GitHub repo:** https://github.com/petr-homolka/dopcrm-mobile (branch `main`)
+**EAS projekt:** `doprovazeni.com/pestouni-crm-mobile` (ID `dbd23f5a-0196-4b96-bc59-f8ad9b814c78`), https://expo.dev/accounts/doprovazeni.com/projects/pestouni-crm-mobile
+
+**CI/CD — EAS Update (2026-07-01):**
+- `.github/workflows/eas-update.yml` — push do `main` → `eas update --branch production --non-interactive` (OTA JS/asset update)
+- Vyžaduje GitHub secrety v repu (Settings → Secrets and variables → Actions): `EXPO_TOKEN` (robot user token z expo.dev) + 6× `EXPO_PUBLIC_FIREBASE_*` (stejné hodnoty jako `.env.local`, nejsou to skutečná tajemství — Firebase client config je bezpečný ke zveřejnění, ale drženo jako secret kvůli konzistenci s projektovou konvencí)
+- **DŮLEŽITÁ MEZERA:** appka se zatím spouští jen přes `npx expo start` + Expo Go (live dev server), NE přes `eas build`. EAS Update publikuje na kanál `production`, ale dokud neexistuje reálný build (`eas build`) nakonfigurovaný na tento kanál, OTA update se nikam neprojeví — je to příprava infrastruktury na budoucnost, ne okamžitě viditelný efekt. Až se mobil rozjede (SDK/Expo Go issue vyřešen), dalším krokem je `eas build --profile preview` (interní distribuce, zdarma, nepotřebuje App Store/Play Store účet) pro reálné ověření OTA update flow.
+- Token exponovaný ve screenshotu uživatelem byl doporučen k revoke + regeneraci před použitím
+
+**Verze (předchozí):** 0.1.1 (Expo scaffold downgradován na SDK 56, web platform fix)
 **Architektura:** Samostatná React Native / Expo app — NE responsive web, NE @media přelití.
 Sdílí Firebase projekt s webem (`pestouni-crm-prototyp`), stejný Firestore tenant model
 (`tenants/{tenantId}/data_objects`) a stejné bezpečnostní pravidlo: role se čtou
