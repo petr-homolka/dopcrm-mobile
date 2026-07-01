@@ -1,5 +1,15 @@
 # CURRENT_STATE — pestouni-crm-mobile
 
+**⏰ ODLOŽENO NA 2026-07-06 — PŘIPOMENOUT:** Uživatel je na dovolené v hotelu, nemá u sebe Android
+telefon. Naplánováno na 6.7.2026 (uživatel to ten den řekl sám, automatická připomínka se bohužel
+nepodařila nastavit kvůli chybě scheduling nástroje):
+1. **Android build** — `eas build --platform android --profile preview` (zdarma, žádný účet, .apk k sideloadu)
+2. **iPhone build** — uživatel řekl, že 6.7.2026 vyřeší **Apple Developer Program** (99 $/rok, developer.apple.com,
+   nutné pro instalaci na reálný iPhone 17 Pro). Jakmile má účet: `eas build --platform ios` (nebo
+   `eas build --platform all` pro obě platformy najednou).
+Do té doby (do 6.7.2026): pracovat hlavně na **web appce** (Desktop + PWA na `moje.doprovazeni.com`,
+funguje už teď bez dalšího kroku) a dál rozvíjet appku přes **Expo Go** (SDK 54, funguje).
+
 **Verze:** 0.4.0 (EAS Update CI/CD PLNĚ FUNKČNÍ — první zelený běh)
 **Stav CI/CD (2026-07-01):** `.github/workflows/eas-update.yml` run #4 (re-run) skončil ✅ **Success** (1m 59s).
 Push do `main` teď skutečně publikuje OTA update na kanál `production` bez zásahu.
