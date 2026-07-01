@@ -3,7 +3,10 @@
  *
  * Nativní obrazovka (ne přelitý web design): SafeAreaView, ScrollView
  * s pull-to-refresh, KPI karty vedle sebe, seznam nejnovějších rodin.
- * Data ze stejného Firestore tenantu jako web (dataService.js).
+ *
+ * Nové B2B SaaS schéma (2026-07-01): data = jen rodiny PŘIDĚLENÉ přihlášené
+ * klíčové osobě (assignedTo == uid), stejně jako FosterFamiliesScreen —
+ * Přehled je tedy souhrn stejné množiny dat, ne celé organizace.
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -17,8 +20,8 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchFamilies, fetchChildren } from '../services/dataService.js';
-import { currentUser } from '../services/auth.js';
+import { auth } from '../services/firebase.js';
+import { listFostersAssignedTo, listChildrenByFamily } from '../services/orgService.js';
 import { colors } from '../theme/colors.js';
 
 function formatDate(value) {
@@ -62,14 +65,17 @@ export default function DashboardScreen() {
   const [childrenCount, setChildrenCount] = useState(0);
 
   const load = useCallback(async () => {
+    const uid = auth.currentUser?.uid;
+    if (!uid) return;
     setError('');
     try {
-      const [familiesData, childrenData] = await Promise.all([
-        fetchFamilies({ orderByField: 'createdAt', orderDirection: 'desc' }),
-        fetchChildren(),
-      ]);
+      const familiesData = await listFostersAssignedTo(uid);
+      // Počet dětí napříč VŠEMI přidělenými rodinami — souhrnná KPI karta.
+      const childrenLists = await Promise.all(familiesData.map((f) => listChildrenByFamily(f.id)));
+      const totalChildren = childrenLists.reduce((sum, list) => sum + list.length, 0);
+
       setFamilies(familiesData);
-      setChildrenCount(childrenData.length);
+      setChildrenCount(totalChildren);
     } catch (err) {
       console.error('[DashboardScreen] Načtení dat selhalo:', err);
       setError(err.message ?? 'Data se nepodařilo načíst.');
@@ -89,7 +95,7 @@ export default function DashboardScreen() {
 
   const activeFamiliesCount = families.filter((f) => f.status === 'active').length;
   const recentFamilies = families.slice(0, 5);
-  const user = currentUser();
+  const user = auth.currentUser;
 
   return (
     <SafeAreaView style={styles.root}>

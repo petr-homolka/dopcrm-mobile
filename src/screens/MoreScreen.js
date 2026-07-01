@@ -6,20 +6,18 @@
  * Uživatelé) jsou zde, ne v bottom tab baru (max. 5 položek dle UX pravidel).
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { signOut, currentUser, currentRole } from '../services/auth.js';
+import { auth } from '../services/firebase.js';
+import { signOut } from '../services/orgAuth.js';
+import { getMyProfile } from '../services/orgService.js';
 import { colors } from '../theme/colors.js';
 
 const ROLE_LABELS = {
   superadmin: 'Superadmin',
-  vedeni: 'Vedení',
-  ko: 'Klíčová osoba',
-  asistent: 'Asistent',
-  pestoun: 'Pěstoun',
-  dite: 'Dítě',
-  externista: 'Externista',
+  org_admin: 'Org. Admin',
+  klicova_osoba: 'Klíčová osoba',
 };
 
 function initials(user) {
@@ -41,9 +39,17 @@ const MENU_ITEMS = [
 ];
 
 export default function MoreScreen() {
-  const user = currentUser();
-  const role = currentRole();
-  const roleLabel = ROLE_LABELS[role?.role] ?? role?.role ?? 'Uživatel';
+  const user = auth.currentUser;
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+    getMyProfile(user.uid).then(setProfile).catch((err) => {
+      console.error('[MoreScreen] getMyProfile selhalo:', err);
+    });
+  }, [user?.uid]);
+
+  const roleLabel = ROLE_LABELS[profile?.role] ?? profile?.role ?? 'Uživatel';
 
   const handleSignOut = useCallback(() => {
     Alert.alert('Odhlásit se', 'Opravdu se chcete odhlásit?', [

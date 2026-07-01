@@ -8,21 +8,19 @@
 
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 
 import DashboardScreen from '../screens/DashboardScreen.js';
+import FosterFamiliesScreen from '../screens/FosterFamiliesScreen.js';
+import FosterFamilyDetailScreen from '../screens/FosterFamilyDetailScreen.js';
 import MoreScreen from '../screens/MoreScreen.js';
 import { createPlaceholderScreen } from '../screens/PlaceholderScreen.js';
 import { colors } from '../theme/colors.js';
 
-const FamiliesScreen = createPlaceholderScreen(
-  'Pěstouni',
-  'Seznam pěstounských rodin — připravujeme pro mobil.',
-  'people-outline'
-);
 const ChildrenScreen = createPlaceholderScreen(
   'Děti',
-  'Přehled dětí v péči — připravujeme pro mobil.',
+  'Přehled dětí v péči — otevřete kartu rodiny v „Pěstouni".',
   'happy-outline'
 );
 const CalendarScreen = createPlaceholderScreen(
@@ -30,6 +28,19 @@ const CalendarScreen = createPlaceholderScreen(
   'Návštěvy a termíny — připravujeme pro mobil.',
   'calendar-outline'
 );
+
+// Vlastní stack pro tab „Pěstouni" — seznam přidělených rodin -> detail
+// s dětmi (Krok 4 zadání). Hlavičku (title/back šipka) řeší tento stack,
+// bottom tab navigator má headerShown:false (viz screenOptions níže).
+const FosterStack = createNativeStackNavigator();
+function FamiliesScreen() {
+  return (
+    <FosterStack.Navigator screenOptions={{ headerTintColor: colors.textPrimary }}>
+      <FosterStack.Screen name="FosterFamiliesList" component={FosterFamiliesScreen} options={{ headerShown: false }} />
+      <FosterStack.Screen name="FosterFamilyDetail" component={FosterFamilyDetailScreen} options={{ title: 'Rodina' }} />
+    </FosterStack.Navigator>
+  );
+}
 
 const ICONS = {
   Přehled: 'grid-outline',

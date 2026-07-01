@@ -19,7 +19,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { signIn } from '../services/auth.js';
+import { signIn } from '../services/orgAuth.js';
 import { colors } from '../theme/colors.js';
 
 function mapFirebaseError(code) {
@@ -73,8 +73,8 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      // signIn() z auth.js: Firebase Auth + načtení role z Firestore user_roles/{uid}.
-      // Návrat do appky řeší App.js přes onAuthStateChanged (initAuth).
+      // signIn() z orgAuth.js: čistě Firebase Auth. Roli/organizaci (users/{uid})
+      // dotáhne App.js přes onAuthStateChanged po přihlášení.
       await signIn(email.trim(), password);
     } catch (err) {
       setError(mapFirebaseError(err.code));

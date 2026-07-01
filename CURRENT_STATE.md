@@ -1,5 +1,53 @@
 # CURRENT_STATE — pestouni-crm-mobile
 
+## 2026-07-01 — Krok 4 zadání: terénní modul na novém B2B SaaS schématu
+
+**Appka je teď postavená na stejném multi-tenant schématu jako web** (`organizations/users/
+foster_families/children`, root kolekce — plný popis a `firestore.rules` viz
+`pestouni-crm-prototyp/CURRENT_STATE.md`). Legacy `services/auth.js` + `services/dataService.js`
+(`user_roles`/`tenants/{tenantId}/data_objects`) zůstávají v repu, ale **appka je od dneška nepoužívá**
+— ponechány jen jako reference, žádný soubor je už neimportuje.
+
+**Nové/změněné soubory:**
+- `src/services/orgAuth.js` — `signIn/signOut` (čistě Firebase Auth, žádné čtení role).
+- `src/services/orgService.js` — `getMyProfile`, `listFostersAssignedTo`, `getFoster`,
+  `listChildrenByFamily` (read-only klient pro tento krok — appka nezakládá rodiny/děti z terénu).
+- `src/services/firebase.js` — **expo-secure-store** místo AsyncStorage pro Auth persistenci
+  (`getReactNativePersistence(SecureStoreAdapter)`, adaptér getItem/setItem/removeItem nad
+  `SecureStore.*Async`); **Firestore offline persistence** přes `initializeFirestore(app, {localCache:
+  persistentLocalCache({})})` (funguje i na RN, ne jen web/IndexedDB) s fallbackem na `getFirestore(app)`.
+- `App.js` — přepsáno na `onAuthStateChanged` + `onSnapshot(users/{uid})` (žádná legacy `initAuth`).
+  Role `!= 'klicova_osoba'` (org_admin/superadmin) → `NotSupportedScreen` (appka je terénní nástroj pro
+  klíčové osoby, správu organizace řeší web).
+- `src/screens/FosterFamiliesScreen.js` — **hlavní obrazovka**: seznam rodin přidělených přihlášené
+  klíčové osobě (`assignedTo == uid`), pull-to-refresh, tap → detail.
+- `src/screens/FosterFamilyDetailScreen.js` — detail rodiny + seznam svěřených dětí (`children`,
+  filtr `fosterFamilyId`).
+- `src/navigation/RootNavigator.js` — tab „Pěstouni" má teď vlastní `native-stack` (seznam→detail);
+  nová závislost `@react-navigation/native-stack`.
+- `src/screens/DashboardScreen.js`, `src/screens/MoreScreen.js` — přepsány na nové schéma (KPI karty
+  ze stejné množiny přidělených rodin; profil/role v „Více" čte `users/{uid}` přes `getMyProfile`).
+- `app.json` — přidán config plugin `expo-secure-store` (`npx expo install` ho zaregistroval sám).
+
+**Nové závislosti:** `expo-secure-store`, `@react-navigation/native-stack` (obě nainstalované přes
+`npx expo install`, SDK 54 kompatibilní verze).
+
+**Ověření (2026-07-01):** `npx expo export --platform web` (625 modulů) i `--platform android`
+(940 modulů) — ✅ bez chyb. Appka na reálném zařízení/Expo Go **nebyla** dnes znovu testována (jen
+statický export) — doporučeno ověřit `npx expo start` + Expo Go před dalším rozšiřováním, zejména
+chování `expo-secure-store` a offline cache na reálném telefonu.
+
+**Chybí / TODO (terénní modul):**
+- Appka je čistě READ-ONLY vůči `foster_families`/`children` — zakládání/editace z terénu (`create`
+  capability pro klíčovou osobu je v `firestore.rules` připravená) není v UI, jen v pravidlech.
+- Tab „Děti" je pořád placeholder (odkazuje uživatele do „Pěstouni" → detail rodiny, kde jsou reálná
+  data) — samostatný napříč-organizační seznam dětí zatím chybí.
+- Skutečné ověření offline chování (vypnout síť v Expo Go, zkontrolovat že `FosterFamiliesScreen`
+  pořád zobrazí naposledy stažená data) — jen teoreticky zapnuto přes `persistentLocalCache`, netestováno
+  na zařízení.
+
+---
+
 **⏰ ODLOŽENO NA 2026-07-06 — PŘIPOMENOUT:** Uživatel je na dovolené v hotelu, nemá u sebe Android
 telefon. Naplánováno na 6.7.2026 (uživatel to ten den řekl sám, automatická připomínka se bohužel
 nepodařila nastavit kvůli chybě scheduling nástroje):
