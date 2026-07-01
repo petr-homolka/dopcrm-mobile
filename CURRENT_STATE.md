@@ -1,6 +1,25 @@
 # CURRENT_STATE — pestouni-crm-mobile
 
-**Verze:** 0.3.0 (KONEČNĚ FUNKČNÍ v Expo Go — SDK 54)
+**Verze:** 0.4.0 (EAS Update CI/CD PLNĚ FUNKČNÍ — první zelený běh)
+**Stav CI/CD (2026-07-01):** `.github/workflows/eas-update.yml` run #4 (re-run) skončil ✅ **Success** (1m 59s).
+Push do `main` teď skutečně publikuje OTA update na kanál `production` bez zásahu.
+
+**Cesta k funkčnímu CI/CD — 3 bugy postupně opravené:**
+1. **YAML syntax error** (řádek 48) — `--message "Auto-deploy: ${{ ... }}"` obsahovalo `": "` (dvojtečka+mezera)
+   uvnitř nekvótovaného YAML skaláru → YAML parser to čte jako vnořený klíč. **Fix:** blokový skalár `run: |`.
+2. **Shell "bad substitution"** — commit message TOHOTO OPRAVNÉHO COMMITU náhodou obsahovala text `${{ ... }}`
+   (protože popisovala bug č. 1), což se doslovně interpolovalo do shell příkazu a bash se to pokusil
+   vyhodnotit jako proměnnou. **Fix:** commit message přes `env: COMMIT_MESSAGE: ${{ github.event.head_commit.message }}`
+   + `"$COMMIT_MESSAGE"` v `run:` — env proměnné se nere-parsují shellem, takže je to i obecně bezpečnější
+   vzor proti injection (nikdy needitovaný text nedávat přímo do `run:` přes `${{ }}`).
+3. **EXPO_TOKEN autorizační chyba** (`Entity not authorized ... RobotViewerContext`) — token byl vytvořený
+   pod OSOBNÍM Expo účtem uživatele, ale EAS projekt patří účtu `doprovazeni.com`. **Fix:** token vytvořen
+   znovu na `https://expo.dev/accounts/doprovazeni.com/settings/access-tokens` (organizační účet, ne osobní).
+
+**Poučení:** u vícero-účtových Expo/EAS nastavení vždy zkontrolovat, že robot token je vytvořený
+POD SPRÁVNÝM ÚČTEM (tím, co vlastní projekt), ne pod výchozím/osobním účtem uživatele.
+
+**Verze (předchozí):** 0.3.0 (KONEČNĚ FUNKČNÍ v Expo Go — SDK 54)
 **Vyřešeno (2026-07-01):** Appka byla nespustitelná kvůli mismatch verzí Expo Go. Diagnostika: uživatelovo
 Expo Go hlásilo `client version 1017756, supported sdk 54` — podporuje JEN SDK 54, ne 56 ani 57.
 **Downgrade na SDK 54** (`npx expo install expo@^54.0.0 && npx expo install --fix`) + odstranění
