@@ -45,4 +45,5 @@ jobs:
           EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
           EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
           EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID }}
-        run: eas update --branch production --message "Auto-deploy: ${{ github.event.head_commit.message }}" --non-interactive
+        run: |
+          eas update --branch production --message "Auto-deploy: ${{ github.event.head_commit.message }}" --non-interactive
