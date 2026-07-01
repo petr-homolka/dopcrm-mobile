@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "pestouni-crm-mobile",
+    "name": "Doprovázení CRM",
     "slug": "pestouni-crm-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,6 +19,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-status-bar"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "dbd23f5a-0196-4b96-bc59-f8ad9b814c78"
+      }
+    },
+    "owner": "doprovazeni.com",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/dbd23f5a-0196-4b96-bc59-f8ad9b814c78"
     }
   }
 }
