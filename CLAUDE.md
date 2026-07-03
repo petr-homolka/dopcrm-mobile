@@ -1,4 +1,4 @@
-# CLAUDE.md — Přítomnost MOBILE (terénní appka)
+# CLAUDE.md — Doprovázení.com MOBILE (terénní appka)
 
 Nativní appka (Expo / React Native) pro KLÍČOVÉ OSOBY doprovázejících organizací pěstounské
 péče. Jediný účel: rychlá práce v terénu — agenda, moje rodiny, zápisy, foto, audio.

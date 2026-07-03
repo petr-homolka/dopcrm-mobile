@@ -96,7 +96,7 @@ export default function LoginScreen() {
           <Text style={styles.brandMarkText}>D</Text>
         </View>
         <Text style={styles.heading}>Přihlaste se</Text>
-        <Text style={styles.subheading}>Doprovázení CRM — podpora pěstounských rodin</Text>
+        <Text style={styles.subheading}>Doprovázení.com — podpora pěstounských rodin</Text>
 
         {error ? (
           <View style={styles.errorBox}>
