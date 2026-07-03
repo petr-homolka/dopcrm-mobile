@@ -16,7 +16,7 @@ import FosterFamiliesScreen from '../screens/FosterFamiliesScreen.js';
 import FosterFamilyDetailScreen from '../screens/FosterFamilyDetailScreen.js';
 import MoreScreen from '../screens/MoreScreen.js';
 import { createPlaceholderScreen } from '../screens/PlaceholderScreen.js';
-import { colors } from '../theme/colors.js';
+import { colors } from '../theme/tokens.js';
 
 const ChildrenScreen = createPlaceholderScreen(
   'Děti',
@@ -58,9 +58,9 @@ export default function RootNavigator() {
       initialRouteName="Přehled"
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: colors.primary600,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: { borderTopColor: colors.border },
+        tabBarStyle: { borderTopColor: colors.divider },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
         tabBarIcon: ({ color, size }) => (
           <Ionicons name={ICONS[route.name] ?? 'ellipse-outline'} size={size} color={color} />

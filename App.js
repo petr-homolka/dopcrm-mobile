@@ -25,7 +25,7 @@ import { auth, db } from './src/services/firebase.js';
 import { signOut } from './src/services/orgAuth.js';
 import LoginScreen from './src/screens/LoginScreen.js';
 import RootNavigator from './src/navigation/RootNavigator.js';
-import { colors } from './src/theme/colors.js';
+import { colors } from './src/theme/tokens.js';
 
 function NotSupportedScreen({ role }) {
   return (
@@ -81,7 +81,7 @@ export default function App() {
   if (authState.loading) {
     content = (
       <View style={styles.loadingRoot}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.primary600} />
       </View>
     );
   } else if (!authState.user) {
@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
     height: 46,
     paddingHorizontal: 24,
     borderRadius: 12,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary600,
     alignItems: 'center',
     justifyContent: 'center',
   },
   notSupportedBtnText: {
     fontSize: 14,
     fontWeight: '700',
-    color: colors.onSecondary,
+    color: colors.surface,
   },
 });

@@ -22,7 +22,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../services/firebase.js';
 import { listFostersAssignedTo, listChildrenByFamily } from '../services/orgService.js';
-import { colors } from '../theme/colors.js';
+import { colors, radius } from '../theme/tokens.js';
 
 function formatDate(value) {
   if (!value) return '—';
@@ -101,14 +101,14 @@ export default function DashboardScreen() {
     <SafeAreaView style={styles.root}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary600} />}
       >
         <Text style={styles.greeting}>Dobrý den, {firstName(user)}</Text>
         <Text style={styles.dateText}>{formatTodayLong()}</Text>
 
         {loading && (
           <View style={styles.loadingBox}>
-            <ActivityIndicator size="small" color={colors.primary} />
+            <ActivityIndicator size="small" color={colors.primary600} />
             <Text style={styles.loadingText}>Načítám data…</Text>
           </View>
         )}
@@ -127,13 +127,13 @@ export default function DashboardScreen() {
                 icon="people-outline"
                 label="AKTIVNÍ RODINY"
                 value={activeFamiliesCount}
-                tint="#EEF2FF"
+                tint={colors.familyBg}
               />
               <StatCard
                 icon="happy-outline"
                 label="DĚTI V PÉČI"
                 value={childrenCount}
-                tint="#FFF8E1"
+                tint={colors.primary100}
               />
             </View>
 
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   statsRow: { flexDirection: 'row', gap: 12, marginBottom: 24 },
   statCard: {
     flex: 1,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     padding: 16,
     minHeight: 110,
   },
@@ -216,21 +216,21 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 17, fontWeight: '700', color: colors.textPrimary, marginBottom: 12 },
   listCard: {
     backgroundColor: colors.surface,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     paddingHorizontal: 16,
-    shadowColor: colors.cardShadowColor,
+    shadowColor: colors.textPrimary,
     shadowOpacity: 0.06,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
   row: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14 },
-  rowDivider: { borderBottomWidth: 1, borderBottomColor: colors.border },
+  rowDivider: { borderBottomWidth: 1, borderBottomColor: colors.divider },
   rowTitle: { fontSize: 15, fontWeight: '600', color: colors.textPrimary },
   rowSubtitle: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
   statusChip: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999 },
   statusChipActive: { backgroundColor: '#DCFCE7' },
-  statusChipDefault: { backgroundColor: colors.background, borderWidth: 1, borderColor: colors.border },
+  statusChipDefault: { backgroundColor: colors.background, borderWidth: 1, borderColor: colors.divider },
   statusChipText: { fontSize: 11, fontWeight: '600', color: colors.textSecondary },
   statusChipTextActive: { color: colors.success },
   emptyText: { color: colors.textSecondary, fontSize: 14, paddingVertical: 24, textAlign: 'center' },

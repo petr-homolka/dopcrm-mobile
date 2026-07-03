@@ -8,7 +8,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../theme/colors.js';
+import { colors } from '../theme/tokens.js';
 
 export function createPlaceholderScreen(title, description, icon = 'construct-outline') {
   return function PlaceholderScreen() {

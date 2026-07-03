@@ -21,7 +21,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../services/firebase.js';
 import { listFostersAssignedTo } from '../services/orgService.js';
-import { colors } from '../theme/colors.js';
+import { colors } from '../theme/tokens.js';
 
 const STATUS_LABELS = { active: 'Aktivní', paused: 'Pozastaveno', exited: 'Ukončeno' };
 
@@ -89,7 +89,7 @@ export default function FosterFamiliesScreen({ navigation }) {
 
       {loading && (
         <View style={styles.loadingBox}>
-          <ActivityIndicator size="small" color={colors.primary} />
+          <ActivityIndicator size="small" color={colors.primary600} />
         </View>
       )}
 
@@ -105,7 +105,7 @@ export default function FosterFamiliesScreen({ navigation }) {
           data={families}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} />}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary600} />}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           ListEmptyComponent={
             <Text style={styles.emptyText}>Zatím vám nejsou přidělené žádné rodiny.</Text>
@@ -131,16 +131,16 @@ const styles = StyleSheet.create({
   },
   errorText: { color: colors.error, fontSize: 13, flex: 1 },
   listContent: { paddingHorizontal: 20, paddingBottom: 24 },
-  separator: { height: 1, backgroundColor: colors.border },
+  separator: { height: 1, backgroundColor: colors.divider },
   row: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, gap: 12 },
   avatar: {
-    width: 40, height: 40, borderRadius: 12, backgroundColor: '#EEF2FF',
+    width: 40, height: 40, borderRadius: 12, backgroundColor: colors.familyBg,
     alignItems: 'center', justifyContent: 'center',
   },
-  avatarText: { fontWeight: '700', color: colors.primary, fontSize: 14 },
+  avatarText: { fontWeight: '700', color: colors.primary600, fontSize: 14 },
   rowTitle: { fontSize: 15, fontWeight: '600', color: colors.textPrimary },
   rowSubtitle: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
-  statusChip: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, backgroundColor: colors.background, borderWidth: 1, borderColor: colors.border },
+  statusChip: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, backgroundColor: colors.background, borderWidth: 1, borderColor: colors.divider },
   statusChipActive: { backgroundColor: '#DCFCE7', borderColor: 'transparent' },
   statusChipText: { fontSize: 11, fontWeight: '600', color: colors.textSecondary },
   statusChipTextActive: { color: colors.success },

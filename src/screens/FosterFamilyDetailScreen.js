@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getFoster, listChildrenByFamily } from '../services/orgService.js';
-import { colors } from '../theme/colors.js';
+import { colors, radius } from '../theme/tokens.js';
 
 const STATUS_LABELS = { active: 'Aktivní', paused: 'Pozastaveno', exited: 'Ukončeno' };
 
@@ -71,7 +71,7 @@ export default function FosterFamilyDetailScreen({ route, navigation }) {
     return (
       <SafeAreaView style={styles.root}>
         <View style={styles.loadingBox}>
-          <ActivityIndicator size="small" color={colors.primary} />
+          <ActivityIndicator size="small" color={colors.primary600} />
         </View>
       </SafeAreaView>
     );
@@ -113,7 +113,7 @@ export default function FosterFamilyDetailScreen({ route, navigation }) {
               {children.map((child, idx) => (
                 <View key={child.id} style={[styles.childRow, idx < children.length - 1 && styles.childRowDivider]}>
                   <View style={styles.childAvatar}>
-                    <Ionicons name="happy-outline" size={18} color={colors.secondaryDark} />
+                    <Ionicons name="happy-outline" size={18} color={colors.primary700} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.childName}>
@@ -142,17 +142,17 @@ const styles = StyleSheet.create({
   errorText: { color: colors.error, fontSize: 13, flex: 1 },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     padding: 18,
     marginBottom: 20,
-    shadowColor: colors.cardShadowColor,
+    shadowColor: colors.textPrimary,
     shadowOpacity: 0.06,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
   cardTitle: { fontSize: 18, fontWeight: '700', color: colors.textPrimary, marginBottom: 8 },
-  statusChip: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, backgroundColor: colors.background, borderWidth: 1, borderColor: colors.border },
+  statusChip: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, backgroundColor: colors.background, borderWidth: 1, borderColor: colors.divider },
   statusChipText: { fontSize: 11, fontWeight: '600', color: colors.textSecondary },
   infoRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   infoText: { fontSize: 13, color: colors.textSecondary },
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 16, fontWeight: '700', color: colors.textPrimary, marginBottom: 12 },
   emptyText: { color: colors.textSecondary, fontSize: 14, textAlign: 'center', paddingVertical: 16 },
   childRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, gap: 12 },
-  childRowDivider: { borderBottomWidth: 1, borderBottomColor: colors.border },
-  childAvatar: { width: 36, height: 36, borderRadius: 10, backgroundColor: '#FFF8E1', alignItems: 'center', justifyContent: 'center' },
+  childRowDivider: { borderBottomWidth: 1, borderBottomColor: colors.divider },
+  childAvatar: { width: 36, height: 36, borderRadius: 10, backgroundColor: colors.primary100, alignItems: 'center', justifyContent: 'center' },
   childName: { fontSize: 14, fontWeight: '600', color: colors.textPrimary },
   childMeta: { fontSize: 12, color: colors.textSecondary, marginTop: 2 },
 });

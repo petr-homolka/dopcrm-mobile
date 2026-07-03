@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { signIn } from '../services/orgAuth.js';
-import { colors } from '../theme/colors.js';
+import { colors } from '../theme/tokens.js';
 
 function mapFirebaseError(code) {
   const map = {
@@ -167,7 +167,7 @@ export default function LoginScreen() {
           activeOpacity={0.85}
         >
           {loading ? (
-            <ActivityIndicator size="small" color={colors.onSecondary} />
+            <ActivityIndicator size="small" color={colors.surface} />
           ) : (
             <Text style={styles.submitText}>Přihlásit se</Text>
           )}
@@ -186,13 +186,13 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 16,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary600,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     marginBottom: 16,
   },
-  brandMarkText: { fontSize: 28, fontWeight: '800', color: colors.onSecondary },
+  brandMarkText: { fontSize: 28, fontWeight: '800', color: colors.surface },
   heading: { fontSize: 24, fontWeight: '700', color: colors.textPrimary, textAlign: 'center' },
   subheading: {
     fontSize: 14,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1.5,
-    borderColor: colors.border,
+    borderColor: colors.divider,
     borderRadius: 12,
     backgroundColor: colors.surface,
     paddingHorizontal: 12,
@@ -237,12 +237,12 @@ const styles = StyleSheet.create({
   submitBtn: {
     height: 50,
     borderRadius: 12,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary600,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 4,
   },
   submitBtnDisabled: { opacity: 0.6 },
-  submitText: { fontSize: 15, fontWeight: '700', color: colors.onSecondary },
+  submitText: { fontSize: 15, fontWeight: '700', color: colors.surface },
   footer: { textAlign: 'center', fontSize: 12, color: colors.textSecondary, marginTop: 20 },
 });

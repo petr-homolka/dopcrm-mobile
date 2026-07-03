@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../services/firebase.js';
 import { signOut } from '../services/orgAuth.js';
 import { getMyProfile } from '../services/orgService.js';
-import { colors } from '../theme/colors.js';
+import { colors, radius } from '../theme/tokens.js';
 
 const ROLE_LABELS = {
   superadmin: 'Superadmin',
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: colors.surface,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     padding: 16,
     marginBottom: 20,
     gap: 14,
@@ -114,21 +114,21 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary600,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: { fontSize: 16, fontWeight: '700', color: colors.onSecondary },
+  avatarText: { fontSize: 16, fontWeight: '700', color: colors.surface },
   name: { fontSize: 16, fontWeight: '700', color: colors.textPrimary },
   role: { fontSize: 13, color: colors.textSecondary, marginTop: 2 },
   menuCard: {
     backgroundColor: colors.surface,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     paddingHorizontal: 16,
     marginBottom: 20,
   },
   menuRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, minHeight: 44 },
-  menuRowDivider: { borderBottomWidth: 1, borderBottomColor: colors.border },
+  menuRowDivider: { borderBottomWidth: 1, borderBottomColor: colors.divider },
   menuLabel: { flex: 1, fontSize: 15, color: colors.textPrimary },
   signOutBtn: {
     flexDirection: 'row',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 8,
     paddingVertical: 14,
-    borderRadius: colors.cardRadius,
+    borderRadius: radius.card,
     borderWidth: 1,
     borderColor: '#FCA5A5',
     minHeight: 44,
